@@ -1,10 +1,11 @@
 #ifndef YOTH_QUATERNION_H
 #define YOTH_QUATERNION_H
 
+#include "vector_type.h"
+
 namespace Yoth {
 
-class Quaternion {
-public:
+template <typename T> class Quaternion : public VectorType<T, 4, Quaternion> {
 public:
 };
 

@@ -1,9 +1,21 @@
 #ifndef YOTH_VECTOR_TYPE_H
 #define YOTH_VECTOR_TYPE_H
 
-#include "vector_type_concepts.h"
+#include "core/core.h"
 
 namespace Yoth {
+
+template <typename T> struct VectorTypeLength {
+  using type = float;
+};
+
+template <> struct VectorTypeLength<double> {
+  using type = double;
+};
+
+template <> struct VectorTypeLength<long double> {
+  using type = long double;
+};
 
 template <typename T, int N, template <typename> typename Derived> class VectorType {
 public:
@@ -14,6 +26,8 @@ public:
 
 template <typename T, template <typename> typename Derived> class VectorType<T, 2, Derived> {
 public:
+  using value_type = T;
+
   VectorType() : x{}, y{} {}
   VectorType(T v) : x(v), y(v) {}
   VectorType(T v0, T v1) : x(v0), y(v1) {}
@@ -54,7 +68,28 @@ public:
     return static_cast<Derived<T> &>(*this);
   }
 
+  template <typename U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
+    return {x + other.x, y + other.y};
+  }
+
+  template <typename U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+    return {x - other.x, y - other.y};
+  }
+
+  template <typename U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+    return {x * other.x, y * other.y};
+  }
+
+  template <typename U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
+    return {x / d, y / d};
+  }
+
+  bool operator==(Derived<T> other) const { return x == other.x && y == other.y; }
+
+  bool operator!=(Derived<T> other) const { return x != other.x || y != other.y; }
+
   T operator[](int i) const { return data[i]; }
+
   T &operator[](int i) { return data[i]; }
 
 public:
@@ -71,6 +106,8 @@ public:
 
 template <typename T, template <typename> typename Derived> class VectorType<T, 3, Derived> {
 public:
+  using value_type = T;
+
   VectorType() : x{}, y{}, z{} {}
   VectorType(T v) : x(v), y(v), z(v) {}
   VectorType(T v0, T v1, T v2) : x(v0), y(v1), z(v2) {}
@@ -117,7 +154,32 @@ public:
     return static_cast<Derived<T> &>(*this);
   }
 
+  template <typename U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
+    return {x + other.x, y + other.y, z + other.z};
+  }
+
+  template <typename U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+    return {x - other.x, y - other.y, z - other.z};
+  }
+
+  template <typename U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} * U{})> {
+    return {x * other.x, y * other.y, z * other.z};
+  }
+
+  template <typename U> auto operator*(U d) const -> Derived<decltype(T{} * U{})> {
+    return {x * d, y * d, z * d};
+  }
+
+  template <typename U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
+    return {x / d, y / d, z / d};
+  }
+
+  bool operator==(Derived<T> other) const { return x == other.x && y == other.y && z == other.z; }
+
+  bool operator!=(Derived<T> other) const { return x != other.x || y != other.y || z != other.z; }
+
   T operator[](int i) const { return data[i]; }
+
   T &operator[](int i) { return data[i]; }
 
 public:
@@ -134,6 +196,8 @@ public:
 
 template <typename T, template <typename> typename Derived> class VectorType<T, 4, Derived> {
 public:
+  using value_type = T;
+
   VectorType() : x{}, y{}, z{}, w{} {}
   VectorType(T v) : x(v), y(v), z(v), w(v) {}
   VectorType(T v0, T v1, T v2, T v3) : x(v0), y(v1), z(v2), w(v3) {}
@@ -162,7 +226,32 @@ public:
     return *this;
   }
 
+  template <typename U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
+    return {x + other.x, y + other.y, z + other.z, w + other.w};
+  }
+
+  template <typename U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+    return {x - other.x, y - other.y, z - other.z, w + other.w};
+  }
+
+  template <typename U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+    return {x * other.x, y * other.y, z - other.z, w + other.w};
+  }
+
+  template <typename U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
+    return {x / d, y / d, z / d, w / d};
+  }
+
+  bool operator==(Derived<T> other) const {
+    return x == other.x && y == other.y && z == other.z && w == other.w;
+  }
+
+  bool operator!=(Derived<T> other) const {
+    return x != other.x || y != other.y || z != other.z || w != other.w;
+  }
+
   T operator[](int i) const { return data[i]; }
+
   T &operator[](int i) { return data[i]; }
 
 public:
