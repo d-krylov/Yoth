@@ -93,7 +93,15 @@ TEST(Vector3f, Operators) {
 TEST(Vector4f, Operators) {}
 
 TEST(Matrix4, Operators) {
-  Matrix<int, 4, 4> m{1, 2, 4, 3, 6, 8, 5, 4, 1, 7, 2, 5, 4, 9, 8, 6};
+  Matrix4i m1{1, 2, 4, 3, 6, 8, 5, 4, 1, 7, 2, 5, 4, 9, 8, 6};
+  Matrix4i m2{1, 2, 4, 3, 6, 8, 5, 4, 1, 7, 2, 5, 4, 9, 8, 6};
 
-  ASSERT_EQ(m.Determinant(), -188);
+  Matrix4i m3 = m1 * m2;
+
+  Matrix4i m4{29, 73, 46, 49, 75, 147, 106, 99, 65, 117, 83, 71, 90, 190, 125, 124};
+
+  ASSERT_EQ(m1, m2);
+  ASSERT_EQ(m3, m4);
+
+  ASSERT_EQ(m1.Determinant(), -188);
 }

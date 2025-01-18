@@ -23,6 +23,11 @@ public:
     return *this;
   }
 
+  type &operator/=(T value) {
+    std::ranges::transform(m, m.begin(), [value](T element) { return element / value; });
+    return *this;
+  }
+
   type operator+(const type &other) const {
     type r = *this;
     return r += other;
@@ -32,6 +37,12 @@ public:
     type r = *this;
     return r -= other;
   }
+
+  bool operator==(const type &other) const { return std::ranges::equal(m, other.m); }
+
+  T At(int32_t i, int32_t j) const { return m[COLUMNS * i + j]; }
+
+  T &At(int32_t i, int32_t j) { return m[COLUMNS * i + j]; }
 
   T Determinant() const
     requires(ROWS == 4 && COLUMNS == 4);

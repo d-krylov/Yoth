@@ -30,6 +30,8 @@ using Vector4f = Vector4<float>;
 using Vector2d = Vector2<double>;
 using Vector3d = Vector3<double>;
 using Vector4d = Vector4<double>;
+using Matrix4i = Matrix<int32_t, 4, 4>;
+using Matrix4f = Matrix<float, 4, 4>;
 
 } // namespace Yoth
 
