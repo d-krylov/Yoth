@@ -1,6 +1,7 @@
 #ifndef YOTH_MATHEMATICS_H
 #define YOTH_MATHEMATICS_H
 
+#include "constants.h"
 #include "matrix.h"
 #include "normal.h"
 #include "point.h"

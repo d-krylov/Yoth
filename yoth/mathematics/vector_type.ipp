@@ -8,94 +8,103 @@ template <typename T, template <typename> typename D> using VectorType3 = Vector
 template <typename T, template <typename> typename D> using VectorType4 = VectorType<T, 4, D>;
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> abs(VectorType2<T, Derived> t) {
+inline Derived<T> Abs(const VectorType2<T, Derived> &t) {
   using std::abs;
   return {abs(t.x), abs(t.y)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> abs(VectorType3<T, Derived> t) {
+inline Derived<T> Abs(const VectorType3<T, Derived> &t) {
   using std::abs;
   return {abs(t.x), abs(t.y), abs(t.z)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> abs(VectorType4<T, Derived> t) {
+inline Derived<T> Abs(const VectorType4<T, Derived> &t) {
   using std::abs;
   return {abs(t.x), abs(t.y), abs(t.z), abs(t.w)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> max(VectorType2<T, Derived> t1, VectorType2<T, Derived> t2) {
+inline Derived<T> Max(const VectorType2<T, Derived> &t1, const VectorType2<T, Derived> &t2) {
   using std::max;
-  return {max(t1.x, t2.x), abs(t1.y, t2.y)};
+  return {max(t1.x, t2.x), max(t1.y, t2.y)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> max(VectorType3<T, Derived> t1, VectorType3<T, Derived> t2) {
+inline Derived<T> Max(const VectorType3<T, Derived> &t1, const VectorType3<T, Derived> &t2) {
   using std::max;
-  return {max(t1.x, t2.x), abs(t1.y, t2.y), abs(t1.z, t2.z)};
+  return {max(t1.x, t2.x), max(t1.y, t2.y), max(t1.z, t2.z)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> max(VectorType4<T, Derived> t1, VectorType4<T, Derived> t2) {
+inline Derived<T> Max(const VectorType4<T, Derived> &t1, const VectorType4<T, Derived> &t2) {
   using std::max;
-  return {max(t1.x, t2.x), abs(t1.y, t2.y), abs(t1.z, t2.z), abs(t1.w, t2.w)};
+  return {max(t1.x, t2.x), max(t1.y, t2.y), max(t1.z, t2.z), max(t1.w, t2.w)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> min(VectorType2<T, Derived> t1, VectorType2<T, Derived> t2) {
+inline Derived<T> Min(const VectorType2<T, Derived> &t1, const VectorType2<T, Derived> &t2) {
   using std::min;
-  return {max(t1.x, t2.x), abs(t1.y, t2.y)};
+  return {min(t1.x, t2.x), min(t1.y, t2.y)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> min(VectorType3<T, Derived> t1, VectorType3<T, Derived> t2) {
+inline Derived<T> Min(const VectorType3<T, Derived> &t1, const VectorType3<T, Derived> &t2) {
   using std::min;
-  return {min(t1.x, t2.x), abs(t1.y, t2.y), abs(t1.z, t2.z)};
+  return {min(t1.x, t2.x), min(t1.y, t2.y), min(t1.z, t2.z)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> min(VectorType4<T, Derived> t1, VectorType4<T, Derived> t2) {
+inline Derived<T> Min(const VectorType4<T, Derived> &t1, const VectorType4<T, Derived> &t2) {
   using std::min;
-  return {min(t1.x, t2.x), abs(t1.y, t2.y), abs(t1.z, t2.z), abs(t1.w, t2.w)};
+  return {min(t1.x, t2.x), min(t1.y, t2.y), min(t1.z, t2.z), min(t1.w, t2.w)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> ceil(VectorType2<T, Derived> t) {
+inline Derived<T> Ceil(const VectorType2<T, Derived> &t) {
   using std::ceil;
   return {ceil(t.x), ceil(t.y)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> ceil(VectorType3<T, Derived> t) {
+inline Derived<T> Ceil(const VectorType3<T, Derived> &t) {
   using std::ceil;
   return {ceil(t.x), ceil(t.y), ceil(t.z)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> ceil(VectorType4<T, Derived> t) {
+inline Derived<T> Ceil(const VectorType4<T, Derived> &t) {
   using std::ceil;
   return {ceil(t.x), ceil(t.y), ceil(t.z), ceil(t.w)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> floor(VectorType2<T, Derived> t) {
+inline Derived<T> Floor(const VectorType2<T, Derived> &t) {
   using std::floor;
   return {floor(t.x), floor(t.y)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> floor(VectorType3<T, Derived> t) {
+inline Derived<T> Floor(const VectorType3<T, Derived> &t) {
   using std::floor;
   return {floor(t.x), floor(t.y), floor(t.z)};
 }
 
 template <template <typename> typename Derived, typename T>
-inline Derived<T> floor(VectorType4<T, Derived> t) {
+inline Derived<T> Floor(const VectorType4<T, Derived> &t) {
   using std::floor;
-
   return {floor(t.x), floor(t.y), floor(t.z), floor(t.w)};
+}
+
+template <template <typename> class Derived, Arithmetic T, Arithmetic U>
+inline auto operator*(U s, const VectorType2<T, Derived> &t) -> Derived<decltype(T{} * U{})> {
+  return t * s;
+}
+
+template <template <typename> class Derived, Arithmetic T, Arithmetic U>
+inline auto operator*(U s, const VectorType3<T, Derived> &t) -> Derived<decltype(T{} * U{})> {
+  return t * s;
 }
 
 } // namespace Yoth

@@ -9,9 +9,10 @@ set(CMAKE_CXX_EXTENSIONS ON)
 include(cmake/clang_format.cmake)
 include(cmake/libraries.cmake)
 
-FetchContent_MakeAvailable(googletest)
-
-add_subdirectory(tests)
-
-add_clang_format_target(format "build")
-
+if (CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+  FetchContent_MakeAvailable(googletest)
+  
+  add_subdirectory(tests)
+  
+  add_clang_format_target(format "build")
+endif()

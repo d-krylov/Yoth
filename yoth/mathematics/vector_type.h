@@ -29,64 +29,64 @@ public:
   using value_type = T;
 
   VectorType() : x{}, y{} {}
-  VectorType(T v) : x(v), y(v) {}
   VectorType(T v0, T v1) : x(v0), y(v1) {}
+  explicit VectorType(T v) : x(v), y(v) {}
 
-  template <typename U> auto &operator+=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator+=(const Derived<U> &other) {
     x += other.x;
     y += other.y;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator-=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator-=(const Derived<U> &other) {
     x -= other.x;
     y -= other.y;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator*=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator*=(const Derived<U> &other) {
     x *= other.x;
     y *= other.y;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator/=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator/=(const Derived<U> &other) {
     x /= other.x;
     y /= other.y;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator*=(U v) {
+  template <Arithmetic U> auto &operator*=(U v) {
     x *= v;
     y *= v;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator/=(U v) {
+  template <Arithmetic U> auto &operator/=(U v) {
     x /= v;
     y /= v;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
+  template <Arithmetic U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
     return {x + other.x, y + other.y};
   }
 
-  template <typename U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+  template <Arithmetic U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
     return {x - other.x, y - other.y};
   }
 
-  template <typename U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+  template <Arithmetic U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} * U{})> {
     return {x * other.x, y * other.y};
   }
 
-  template <typename U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
+  template <Arithmetic U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
     return {x / d, y / d};
   }
 
-  bool operator==(Derived<T> other) const { return x == other.x && y == other.y; }
+  bool operator==(const Derived<T> &other) const { return x == other.x && y == other.y; }
 
-  bool operator!=(Derived<T> other) const { return x != other.x || y != other.y; }
+  bool operator!=(const Derived<T> &other) const { return x != other.x || y != other.y; }
 
   T operator[](int i) const { return data[i]; }
 
@@ -109,64 +109,64 @@ public:
   using value_type = T;
 
   VectorType() : x{}, y{}, z{} {}
-  VectorType(T v) : x(v), y(v), z(v) {}
   VectorType(T v0, T v1, T v2) : x(v0), y(v1), z(v2) {}
+  explicit VectorType(T v) : x(v), y(v), z(v) {}
 
-  template <typename U> auto &operator+=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator+=(const Derived<U> &other) {
     x += other.x;
     y += other.y;
     z += other.z;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator-=(Derived<U> other) {
+  template <Arithmetic U> auto &operator-=(Derived<U> other) {
     x -= other.x;
     y -= other.y;
     z -= other.z;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator*=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator*=(const Derived<U> &other) {
     x *= other.x;
     y *= other.y;
     z *= other.z;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator/=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator/=(const Derived<U> &other) {
     x /= other.x;
     y /= other.y;
     z *= other.z;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator*=(U v) {
+  template <Arithmetic U> auto &operator*=(U v) {
     x *= v;
     y *= v;
     z *= v;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto &operator/=(U v) {
+  template <Arithmetic U> auto &operator/=(U v) {
     x /= v;
     y /= v;
     z /= v;
     return static_cast<Derived<T> &>(*this);
   }
 
-  template <typename U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
+  template <Arithmetic U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
     return {x + other.x, y + other.y, z + other.z};
   }
 
-  template <typename U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+  template <Arithmetic U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
     return {x - other.x, y - other.y, z - other.z};
   }
 
-  template <typename U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} * U{})> {
+  template <Arithmetic U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} * U{})> {
     return {x * other.x, y * other.y, z * other.z};
   }
 
-  template <typename U> auto operator*(U d) const -> Derived<decltype(T{} * U{})> {
+  template <Arithmetic U> auto operator*(U d) const -> Derived<decltype(T{} * U{})> {
     return {x * d, y * d, z * d};
   }
 
@@ -174,9 +174,9 @@ public:
     return {x / d, y / d, z / d};
   }
 
-  bool operator==(Derived<T> other) const { return x == other.x && y == other.y && z == other.z; }
+  bool operator==(const Derived<T> &other) const { return x == other.x && y == other.y && z == other.z; }
 
-  bool operator!=(Derived<T> other) const { return x != other.x || y != other.y || z != other.z; }
+  bool operator!=(const Derived<T> &other) const { return x != other.x || y != other.y || z != other.z; }
 
   T operator[](int i) const { return data[i]; }
 
@@ -199,10 +199,10 @@ public:
   using value_type = T;
 
   VectorType() : x{}, y{}, z{}, w{} {}
-  VectorType(T v) : x(v), y(v), z(v), w(v) {}
   VectorType(T v0, T v1, T v2, T v3) : x(v0), y(v1), z(v2), w(v3) {}
+  explicit VectorType(T v) : x(v), y(v), z(v), w(v) {}
 
-  template <typename U> auto &operator+=(const Derived<U> &other) {
+  template <Arithmetic U> auto &operator+=(const Derived<U> &other) {
     x += other.x;
     y += other.y;
     z += other.z;
@@ -210,7 +210,7 @@ public:
     return *this;
   }
 
-  template <typename U> auto &operator*=(U v) {
+  template <Arithmetic U> auto &operator*=(U v) {
     x *= v;
     y *= v;
     z *= v;
@@ -218,7 +218,7 @@ public:
     return *this;
   }
 
-  template <typename U> auto &operator/=(U v) {
+  template <Arithmetic U> auto &operator/=(U v) {
     x /= v;
     y /= v;
     z /= v;
@@ -226,27 +226,27 @@ public:
     return *this;
   }
 
-  template <typename U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
+  template <Arithmetic U> auto operator+(const Derived<U> &other) const -> Derived<decltype(T{} + U{})> {
     return {x + other.x, y + other.y, z + other.z, w + other.w};
   }
 
-  template <typename U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+  template <Arithmetic U> auto operator-(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
     return {x - other.x, y - other.y, z - other.z, w + other.w};
   }
 
-  template <typename U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
+  template <Arithmetic U> auto operator*(const Derived<U> &other) const -> Derived<decltype(T{} - U{})> {
     return {x * other.x, y * other.y, z - other.z, w + other.w};
   }
 
-  template <typename U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
+  template <Arithmetic U> auto operator/(U d) const -> Derived<decltype(T{} / U{})> {
     return {x / d, y / d, z / d, w / d};
   }
 
-  bool operator==(Derived<T> other) const {
+  bool operator==(const Derived<T> &other) const {
     return x == other.x && y == other.y && z == other.z && w == other.w;
   }
 
-  bool operator!=(Derived<T> other) const {
+  bool operator!=(const Derived<T> &other) const {
     return x != other.x || y != other.y || z != other.z || w != other.w;
   }
 

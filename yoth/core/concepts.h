@@ -5,14 +5,11 @@
 
 namespace Yoth {
 
-template <typename T>
-concept IsFloating = std::is_floating_point_v<T>;
-
-template <typename T>
-concept IsIntegral = std::is_integral_v<T>;
-
 template <typename U, typename... T>
 concept SameTypes = (std::same_as<U, T> && ...);
+
+template <typename T>
+concept Arithmetic = std::is_arithmetic_v<T>;
 
 } // namespace Yoth
 

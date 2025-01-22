@@ -6,11 +6,11 @@
 
 namespace Yoth {
 
-template <IsFloating T> inline bool IsNaN(T v) { return std::isnan(v); }
-template <IsIntegral T> inline bool IsNaN(T v) { return false; }
+template <std::floating_point T> inline bool IsNaN(T v) { return std::isnan(v); }
+template <std::integral T> inline bool IsNaN(T v) { return false; }
 
-template <IsIntegral T> inline T FMA(T a, T b, T c) { return a * b + c; }
-template <IsFloating T> inline T FMA(T a, T b, T c) { return std::fma(a, b, c); }
+template <std::integral T> inline T FMA(T a, T b, T c) { return a * b + c; }
+template <std::floating_point T> inline T FMA(T a, T b, T c) { return std::fma(a, b, c); }
 
 template <typename TA, typename TB, typename TC, typename TD>
 inline auto SumOfProducts(TA a, TB b, TC c, TD d) {
@@ -28,27 +28,29 @@ inline auto DifferenceOfProducts(TA a, TB b, TC c, TD d) {
   return difference_of_products + error;
 }
 
-template <IsFloating T> struct CompensatedFloat {
+template <std::floating_point T> struct CompensatedFloat {
   T value;
   T error;
 };
 
-template <IsFloating T> inline CompensatedFloat<T> TwoProduct(T a, T b) {
+template <std::floating_point T> inline CompensatedFloat<T> TwoProduct(T a, T b) {
   auto ab = a * b;
   return CompensatedFloat(ab, FMA(a, b, -ab));
 }
 
 // https://en.wikipedia.org/wiki/2Sum
 
-template <IsFloating T> inline CompensatedFloat<T> TwoSum(float a, float b) {
+template <std::floating_point T> inline CompensatedFloat<T> TwoSum(float a, float b) {
   auto s = a + b;
   auto d = s - a;
   return CompensatedFloat(s, (a - (s - d)) + (b - d));
 }
 
-template <IsFloating T> inline CompensatedFloat<T> InnerProduct(T a, T b) { return TwoProduct(a, b); }
+template <std::floating_point T> inline CompensatedFloat<T> InnerProduct(T a, T b) {
+  return TwoProduct(a, b);
+}
 
-template <IsFloating F, IsFloating... T>
+template <std::floating_point F, std::floating_point... T>
 inline CompensatedFloat<F> InnerProduct(F a, F b, T... tail)
   requires SameTypes<F, T...>
 {
@@ -58,9 +60,9 @@ inline CompensatedFloat<F> InnerProduct(F a, F b, T... tail)
   return CompensatedFloat(sum.value, ab.error + (tp.error + sum.error));
 }
 
-template <IsIntegral T> inline T InnerProduct(T a, T b) { return a * b; }
+template <std::integral T> inline T InnerProduct(T a, T b) { return a * b; }
 
-template <IsIntegral F, IsIntegral... T> inline F InnerProduct(F a, F b, T... tail) {
+template <std::integral F, std::integral... T> inline F InnerProduct(F a, F b, T... tail) {
   return a * b + InnerProduct(tail...);
 }
 

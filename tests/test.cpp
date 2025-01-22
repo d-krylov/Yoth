@@ -68,7 +68,12 @@ TEST(Vector2f, Operators) {
   EXPECT_NEAR(sub.x, -1.1f, 1.0e-5);
   EXPECT_NEAR(sub.y, -2.8f, 1.0e-5);
 
-  EXPECT_EQ(dot(v1, v2), 377.27f);
+  EXPECT_EQ(Dot(v1, v2), 377.27f);
+
+  EXPECT_EQ(Min(v1, v2), v1);
+  EXPECT_EQ(Max(v1, v2), v2);
+  EXPECT_EQ(Floor(v1), Vector2f(13.0f, 12.0f));
+  EXPECT_EQ(Ceil(v1), Vector2f(14.0f, 13.0f));
 }
 
 TEST(Vector2d, Operators) {
@@ -76,9 +81,9 @@ TEST(Vector2d, Operators) {
   Vector2d v2(14.0, 15.0);
   Vector2f v3(3.0f, 4.0f);
 
-  ASSERT_EQ(v3.LengthSquared(), 25.0f);
+  ASSERT_EQ(LengthSquared(v3), 25.0f);
 
-  ASSERT_EQ(v3.Length(), 5.0f);
+  ASSERT_EQ(Length(v3), 5.0f);
 
   EXPECT_EQ(v1 + v2, Vector2d(27.0));
   EXPECT_EQ(v1 - v2, Vector2d(-1.0, -3.0));
@@ -88,6 +93,17 @@ TEST(Vector2d, Operators) {
 TEST(Vector3f, Operators) {
   Vector3f v1(11.712f, 12.737f, 123.567f);
   Vector3f v2(69.829f, 25.621f, 831.412f);
+
+  Vector3f I(-1.0f, -1.0f, -1.0f);
+  Vector3f N(0.0f, 1.0f, 0.0f);
+
+  ASSERT_EQ(Dot(I, N), -1.0f);
+
+  auto reflected = Reflect(I, N);
+
+  ASSERT_EQ(reflected.x, -1.0f);
+  ASSERT_EQ(reflected.y, 1.0f);
+  ASSERT_EQ(reflected.z, -1.0f);
 }
 
 TEST(Vector4f, Operators) {}
