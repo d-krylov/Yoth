@@ -6,10 +6,8 @@ set(YOTH_TESTS_SOURCES
 
 add_executable(Tests ${YOTH_TESTS_SOURCES})
 
-target_include_directories(Tests PRIVATE
-  ${PROJECT_SOURCE_DIR}/yoth
+target_link_libraries(Tests 
+  PRIVATE gtest gtest_main Yoth  
 )
-
-target_link_libraries(Tests PRIVATE gtest gtest_main)
 
 add_test(NAME Tests COMMAND Tests)

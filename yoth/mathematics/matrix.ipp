@@ -37,8 +37,8 @@ inline Matrix<T, 4, 4> operator*(const Matrix<T, 4, 4> &m1, const Matrix<T, 4, 4
   Matrix<T, 4, 4> result;
   for (auto i = 0; i < 4; ++i) {
     for (auto j = 0; j < 4; ++j) {
-      result.At(i, j) = InnerProduct(m1.At(i, 0), m2.At(0, j), m1.At(i, 1), m2.At(1, j), 
-                                     m1.At(i, 2), m2.At(2, j), m1.At(i, 3), m2.At(3, j));
+      result.At(i, j) = (T)InnerProduct(m1.At(i, 0), m2.At(0, j), m1.At(i, 1), m2.At(1, j),
+                                        m1.At(i, 2), m2.At(2, j), m1.At(i, 3), m2.At(3, j));
     }
   }
   return result;

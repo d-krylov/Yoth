@@ -6,7 +6,6 @@
 #include "normal.h"
 #include "point.h"
 #include "quaternion.h"
-#include "vector.h"
 #include <cstdint>
 
 namespace Yoth {

@@ -29,6 +29,9 @@ inline auto DifferenceOfProducts(TA a, TB b, TC c, TD d) {
 }
 
 template <std::floating_point T> struct CompensatedFloat {
+  explicit operator float() const { return value + error; }
+  explicit operator double() const { return double(value) + double(error); }
+
   T value;
   T error;
 };
@@ -40,7 +43,7 @@ template <std::floating_point T> inline CompensatedFloat<T> TwoProduct(T a, T b)
 
 // https://en.wikipedia.org/wiki/2Sum
 
-template <std::floating_point T> inline CompensatedFloat<T> TwoSum(float a, float b) {
+template <std::floating_point T> inline CompensatedFloat<T> TwoSum(T a, T b) {
   auto s = a + b;
   auto d = s - a;
   return CompensatedFloat(s, (a - (s - d)) + (b - d));
@@ -56,7 +59,7 @@ inline CompensatedFloat<F> InnerProduct(F a, F b, T... tail)
 {
   auto ab = TwoProduct(a, b);
   auto tp = InnerProduct(tail...);
-  auto sum = TwoSum(ab.first, tp.first);
+  auto sum = TwoSum(ab.value, tp.value);
   return CompensatedFloat(sum.value, ab.error + (tp.error + sum.error));
 }
 

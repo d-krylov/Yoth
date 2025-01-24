@@ -16,3 +16,10 @@ if (CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
   
   add_clang_format_target(format "build")
 endif()
+
+add_library(${PROJECT_NAME} INTERFACE)
+
+target_include_directories(${PROJECT_NAME} INTERFACE
+  ${PROJECT_SOURCE_DIR}/yoth
+)
+

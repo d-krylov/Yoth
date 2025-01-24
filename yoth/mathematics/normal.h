@@ -9,7 +9,8 @@ template <std::floating_point T> class Normal3 : public VectorType<T, 3, Normal3
 public:
   Normal3() = default;
   template <std::floating_point U> Normal3(U v) : VectorType<T, 3, Normal3>(T(v)) {}
-  template <std::floating_point U> Normal3(U v0, U v1, U v2) : VectorType<T, 3, Normal3>(T(v0), T(v1), T(v2)) {}
+  template <std::floating_point U>
+  Normal3(U v0, U v1, U v2) : VectorType<T, 3, Normal3>(T(v0), T(v1), T(v2)) {}
 };
 
 template <std::floating_point T> inline Vector3<T> Reflect(const Vector3<T> &v, const Vector3<T> &n) {
