@@ -5,15 +5,17 @@
 
 namespace Yoth {
 
-template <Arithmetic T> class Point2 : public VectorType<T, 2, Point2> {
+template <Arithmetic T> class Point2 : public VectorType2<T, Point2> {
 public:
-  using VectorType<T, 2, Point2>::x;
-  using VectorType<T, 2, Point2>::y;
+  using VectorType2<T, Point2>::x;
+  using VectorType2<T, Point2>::y;
+
+  using base_type = VectorType2<T, Point2>;
 
   Point2() = default;
 
-  template <Arithmetic U> Point2(U v) : VectorType<T, 2, Point2>(T(v)) {}
-  template <Arithmetic U> Point2(U v0, U v1) : VectorType<T, 2, Point2>(T(v0), T(v1)) {}
+  template <Arithmetic U> Point2(U v) : base_type(T(v)) {}
+  template <Arithmetic U> Point2(U v0, U v1) : base_type(T(v0), T(v1)) {}
 
   template <Arithmetic U> auto operator+=(const Vector2<U> &v) const { return Point2{x + v.x, y + v.y}; }
 
@@ -22,16 +24,18 @@ public:
   }
 };
 
-template <Arithmetic T> class Point3 : public VectorType<T, 3, Point3> {
+template <Arithmetic T> class Point3 : public VectorType3<T, Point3> {
 public:
-  using VectorType<T, 3, Point3>::x;
-  using VectorType<T, 3, Point3>::y;
-  using VectorType<T, 3, Point3>::z;
+  using VectorType3<T, Point3>::x;
+  using VectorType3<T, Point3>::y;
+  using VectorType3<T, Point3>::z;
+
+  using base_type = VectorType3<T, Point3>;
 
   Point3() = default;
 
-  template <Arithmetic U> Point3(U v) : VectorType<T, 3, Point3>(T(v)) {}
-  template <Arithmetic U> Point3(U v0, U v1, U v2) : VectorType<T, 3, Point3>(T(v0), T(v1), T(v2)) {}
+  template <Arithmetic U> Point3(U v) : base_type(T(v)) {}
+  template <Arithmetic U> Point3(U v0, U v1, U v2) : base_type(T(v0), T(v1), T(v2)) {}
 
   template <typename U> auto &operator+=(const Vector3<U> &v) const {
     x += v.x;

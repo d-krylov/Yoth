@@ -2,6 +2,6 @@
 #define YOTH_H
 
 #include "geometry/bounding_box.h"
-#include "mathematics/mathematics.h"
+#include "geometry/transform.h"
 
 #endif // YOTH_H

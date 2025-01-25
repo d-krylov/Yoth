@@ -3,10 +3,6 @@
 
 namespace Yoth {
 
-template <typename T, template <typename> typename D> using VectorType2 = VectorType<T, 2, D>;
-template <typename T, template <typename> typename D> using VectorType3 = VectorType<T, 3, D>;
-template <typename T, template <typename> typename D> using VectorType4 = VectorType<T, 4, D>;
-
 template <template <typename> typename Derived, typename T>
 inline Derived<T> Abs(const VectorType2<T, Derived> &t) {
   using std::abs;

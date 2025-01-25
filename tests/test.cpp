@@ -160,3 +160,11 @@ TEST(BoundingBox, Constructors) {
   EXPECT_EQ(bb.GetMin(), Point3f(1.0f, 1.0f, 3.0f));
   EXPECT_EQ(bb.GetMax(), Point3f(4.0f, 2.0f, 5.0f));
 }
+
+TEST(Matrix, Operators) {
+
+  Matrix<int32_t, 2, 3> m{1, 2, 3, 4, 5, 6};
+  Matrix<int32_t, 3, 2> t{1, 4, 2, 5, 3, 6};
+
+  EXPECT_EQ(m.Transpose(), t);
+}

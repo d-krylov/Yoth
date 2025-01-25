@@ -3,6 +3,8 @@
 
 namespace Yoth {
 
+template <typename T> using Matrix4 = Matrix<T, 4, 4>;
+
 template <typename T, int ROWS, int COLUMNS>
 T Matrix<T, ROWS, COLUMNS>::Determinant() const
   requires(ROWS == 4 && COLUMNS == 4)
@@ -35,15 +37,31 @@ T Matrix<T, ROWS, COLUMNS>::Determinant() const
 template <typename T>
 inline Matrix<T, 4, 4> operator*(const Matrix<T, 4, 4> &m1, const Matrix<T, 4, 4> &m2) {
   Matrix<T, 4, 4> result;
-  for (auto i = 0; i < 4; ++i) {
-    for (auto j = 0; j < 4; ++j) {
-      result.At(i, j) = (T)InnerProduct(m1.At(i, 0), m2.At(0, j), m1.At(i, 1), m2.At(1, j),
-                                        m1.At(i, 2), m2.At(2, j), m1.At(i, 3), m2.At(3, j));
-    }
-  }
+  std::ranges::generate(result.m, [&, index = 0]() mutable {
+    auto i = index / 4;
+    auto j = index % 4;
+    ++index;
+    return static_cast<T>(
+      InnerProduct(m1.At(i, 0), m2.At(0, j),
+                   m1.At(i, 1), m2.At(1, j),
+                   m1.At(i, 2), m2.At(2, j),
+                   m1.At(i, 3), m2.At(3, j)));
+  });
   return result;
 }
 // clang-format on
+
+template <typename T, int ROWS, int COLUMNS>
+Matrix<T, COLUMNS, ROWS> Matrix<T, ROWS, COLUMNS>::Transpose() const {
+  Matrix<T, COLUMNS, ROWS> result;
+  std::ranges::generate(result.m, [&, index = 0]() mutable {
+    auto i = index / ROWS;
+    auto j = index % ROWS;
+    ++index;
+    return m[j * COLUMNS + i];
+  });
+  return result;
+}
 
 } // namespace Yoth
 

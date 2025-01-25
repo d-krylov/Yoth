@@ -2,7 +2,6 @@
 #define YOTH_MATRIX_H
 
 #include "vector.h"
-#include <algorithm>
 
 namespace Yoth {
 
@@ -49,6 +48,8 @@ public:
 
   T Determinant() const
     requires(ROWS == 2 && COLUMNS == 2);
+
+  Matrix<T, COLUMNS, ROWS> Transpose() const;
 
 public:
   std::array<T, SIZE> m;

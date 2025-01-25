@@ -2,6 +2,7 @@
 #define YOTH_VECTOR_TYPE_H
 
 #include "core/core.h"
+#include <algorithm>
 
 namespace Yoth {
 
@@ -17,20 +18,41 @@ template <> struct VectorTypeLength<long double> {
   using type = long double;
 };
 
-template <typename T, int N, template <typename> typename Derived> class VectorType {
+template <typename T, int N, template <typename, int> typename Derived> class VectorType {
 public:
-  T v[N];
+  template <Arithmetic U> auto &operator+=(const Derived<U, N> &other) {
+    std::ranges::transform(v, other.v, v.begin(), std::plus<>{});
+    return static_cast<Derived<T, N> &>(*this);
+  }
+
+  template <Arithmetic U> auto &operator-=(const Derived<U, N> &other) {
+    std::ranges::transform(v, other.v, v.begin(), std::minus<>{});
+    return static_cast<Derived<T, N> &>(*this);
+  }
+
+  template <Arithmetic U> auto &operator*=(const Derived<U, N> &other) {
+    std::ranges::transform(v, other.v, v.begin(), std::multiplies<>{});
+    return static_cast<Derived<T, N> &>(*this);
+  }
+
+  template <Arithmetic U> auto &operator/=(const Derived<U, N> &other) {
+    std::ranges::transform(v, other.v, v.begin(), std::divides<>{});
+    return static_cast<Derived<T, N> &>(*this);
+  }
+
+public:
+  std::array<T, N> v;
 };
 
 // VectorType 2
 
-template <typename T, template <typename> typename Derived> class VectorType<T, 2, Derived> {
+template <Arithmetic T, template <typename> typename Derived> class VectorType2 {
 public:
   using value_type = T;
 
-  VectorType() : x{}, y{} {}
-  VectorType(T v0, T v1) : x(v0), y(v1) {}
-  explicit VectorType(T v) : x(v), y(v) {}
+  VectorType2() : x{}, y{} {}
+  VectorType2(T v0, T v1) : x(v0), y(v1) {}
+  explicit VectorType2(T v) : x(v), y(v) {}
 
   template <Arithmetic U> auto &operator+=(const Derived<U> &other) {
     x += other.x;
@@ -104,13 +126,13 @@ public:
 
 // VectorType 3
 
-template <typename T, template <typename> typename Derived> class VectorType<T, 3, Derived> {
+template <Arithmetic T, template <typename> typename Derived> class VectorType3 {
 public:
   using value_type = T;
 
-  VectorType() : x{}, y{}, z{} {}
-  VectorType(T v0, T v1, T v2) : x(v0), y(v1), z(v2) {}
-  explicit VectorType(T v) : x(v), y(v), z(v) {}
+  VectorType3() : x{}, y{}, z{} {}
+  VectorType3(T v0, T v1, T v2) : x(v0), y(v1), z(v2) {}
+  explicit VectorType3(T v) : x(v), y(v), z(v) {}
 
   template <Arithmetic U> auto &operator+=(const Derived<U> &other) {
     x += other.x;
@@ -194,13 +216,13 @@ public:
 
 // VectorType 4
 
-template <typename T, template <typename> typename Derived> class VectorType<T, 4, Derived> {
+template <Arithmetic T, template <typename> typename Derived> class VectorType4 {
 public:
   using value_type = T;
 
-  VectorType() : x{}, y{}, z{}, w{} {}
-  VectorType(T v0, T v1, T v2, T v3) : x(v0), y(v1), z(v2), w(v3) {}
-  explicit VectorType(T v) : x(v), y(v), z(v), w(v) {}
+  VectorType4() : x{}, y{}, z{}, w{} {}
+  VectorType4(T v0, T v1, T v2, T v3) : x(v0), y(v1), z(v2), w(v3) {}
+  explicit VectorType4(T v) : x(v), y(v), z(v), w(v) {}
 
   template <Arithmetic U> auto &operator+=(const Derived<U> &other) {
     x += other.x;
