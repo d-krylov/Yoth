@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 
 project(Yoth LANGUAGES CXX C)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -17,9 +17,15 @@ if (CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
   add_clang_format_target(format "build")
 endif()
 
-add_library(${PROJECT_NAME} INTERFACE)
+set(YOTH_SOURCES
+  ${PROJECT_SOURCE_DIR}/yoth/geometry/transform.cpp
+  ${PROJECT_SOURCE_DIR}/yoth/geometry/bounding_box.cpp
+  ${PROJECT_SOURCE_DIR}/yoth/geometry/shapes.cpp
+)
 
-target_include_directories(${PROJECT_NAME} INTERFACE
+add_library(${PROJECT_NAME} STATIC ${YOTH_SOURCES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC
   ${PROJECT_SOURCE_DIR}/yoth
 )
 

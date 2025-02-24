@@ -5,7 +5,7 @@
 
 namespace Yoth {
 
-template <typename T> class Quaternion : public VectorType4<T, Quaternion> {
+template <typename T> class Quaternion : public VectorType4<T> {
 public:
 };
 

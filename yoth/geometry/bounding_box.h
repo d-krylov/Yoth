@@ -6,24 +6,22 @@
 
 namespace Yoth {
 
-template <typename T = float> class BoundingBox {
+class BoundingBox {
 public:
   BoundingBox();
-  BoundingBox(const Point3<T> &p1, const Point3<T> &p2) : min_(Min(p1, p2)), max_(Max(p1, p2)) {}
+  BoundingBox(const Point3F &p1, const Point3F &p2) : min_(Min(p1, p2)), max_(Max(p1, p2)) {}
 
-  void Expand(const Point3<T> &p);
-  void Expand(const BoundingBox<T> &b);
+  void Expand(const Point3F &p);
+  void Expand(const BoundingBox &b);
 
-  const Point3<T> &GetMin() const { return min_; }
-  const Point3<T> &GetMax() const { return max_; }
+  const Point3F &GetMin() const { return min_; }
+  const Point3F &GetMax() const { return max_; }
 
 private:
-  Point3<T> min_;
-  Point3<T> max_;
+  Point3F min_;
+  Point3F max_;
 };
 
 } // namespace Yoth
-
-#include "bounding_box.ipp"
 
 #endif // YOTH_BOUNDING_BOX_H

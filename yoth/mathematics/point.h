@@ -5,12 +5,12 @@
 
 namespace Yoth {
 
-template <Arithmetic T> class Point2 : public VectorType2<T, Point2> {
+template <Arithmetic T> class Point2 : public VectorType2<T> {
 public:
-  using VectorType2<T, Point2>::x;
-  using VectorType2<T, Point2>::y;
+  using VectorType2<T>::x;
+  using VectorType2<T>::y;
 
-  using base_type = VectorType2<T, Point2>;
+  using base_type = VectorType2<T>;
 
   Point2() = default;
 
@@ -19,23 +19,25 @@ public:
 
   template <Arithmetic U> auto operator+=(const Vector2<U> &v) const { return Point2{x + v.x, y + v.y}; }
 
-  template <Arithmetic U> auto operator-(const Point2<U> &other) const -> Vector2<decltype(T{} - U{})> {
+  template <Arithmetic U> auto operator-(const Point2<U> &other) const -> Vector2<std::common_type_t<T, U>> {
     return {x - other.x, y - other.y};
   }
 };
 
-template <Arithmetic T> class Point3 : public VectorType3<T, Point3> {
+template <Arithmetic T> class Point3 : public VectorType3<T> {
 public:
-  using VectorType3<T, Point3>::x;
-  using VectorType3<T, Point3>::y;
-  using VectorType3<T, Point3>::z;
+  using VectorType3<T>::x;
+  using VectorType3<T>::y;
+  using VectorType3<T>::z;
 
-  using base_type = VectorType3<T, Point3>;
+  using base_type = VectorType3<T>;
 
   Point3() = default;
 
   template <Arithmetic U> Point3(U v) : base_type(T(v)) {}
   template <Arithmetic U> Point3(U v0, U v1, U v2) : base_type(T(v0), T(v1), T(v2)) {}
+  template <typename U> Point3(const Point2<U> &v, U t) : base_type(T(v.x), T(v.y), T(t)) {}
+  template <typename U> Point3(U t, const Point2<U> &v) : base_type(T(t), T(v.x), T(v.y)) {}
 
   template <typename U> auto &operator+=(const Vector3<U> &v) const {
     x += v.x;
@@ -44,11 +46,11 @@ public:
     return *this;
   }
 
-  template <typename U> auto operator+(const Vector3<U> &v) const -> Point3<decltype(T{} + U{})> {
+  template <typename U> auto operator+(const Vector3<U> &v) const -> Point3<std::common_type_t<T, U>> {
     return {x + v.x, y + v.y, z + v.z};
   }
 
-  template <typename U> auto operator-(const Point3<U> &other) const -> Vector3<decltype(T{} - U{})> {
+  template <typename U> auto operator-(const Point3<U> &other) const -> Vector3<std::common_type_t<T, U>> {
     return {x - other.x, y - other.y, z - other.z};
   }
 };
@@ -61,14 +63,12 @@ concept IsPoint =
 // clang-format on
 
 template <IsPoint T>
-inline auto Distance(const T &p1, const T &p2) ->
-  typename VectorTypeLength<typename T::value_type>::type {
+inline auto Distance(const T &p1, const T &p2) -> typename VectorTypeLength<typename T::value_type>::type {
   return Length(p1 - p2);
 }
 
 template <IsPoint T>
-inline auto DistanceSquared(const T &p1, const T &p2) ->
-  typename VectorTypeLength<typename T::value_type>::type {
+inline auto DistanceSquared(const T &p1, const T &p2) -> typename VectorTypeLength<typename T::value_type>::type {
   return LengthSquared(p1 - p2);
 }
 

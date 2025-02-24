@@ -34,12 +34,9 @@ template <typename T> inline T Cross(const Vector3<T> &v0, const Vector3<T> &v1)
 
 template <typename T> inline T LengthSquared(const Vector2<T> &v) { return v.x * v.x + v.y * v.y; }
 
-template <typename T> inline T LengthSquared(const Vector3<T> &v) {
-  return v.x * v.x + v.y * v.y + v.z * v.z;
-}
+template <typename T> inline T LengthSquared(const Vector3<T> &v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
 
-template <IsVector T>
-inline auto Length(const T &v) -> typename VectorTypeLength<typename T::value_type>::type {
+template <IsVector T> inline auto Length(const T &v) -> typename VectorTypeLength<typename T::value_type>::type {
   using std::sqrt;
   return sqrt(LengthSquared(v));
 }

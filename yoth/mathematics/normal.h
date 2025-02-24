@@ -5,9 +5,9 @@
 
 namespace Yoth {
 
-template <std::floating_point T> class Normal3 : public VectorType3<T, Normal3> {
+template <std::floating_point T> class Normal3 : public VectorType3<T> {
 public:
-  using base_type = VectorType3<T, Normal3>;
+  using base_type = VectorType3<T>;
 
   Normal3() = default;
   template <std::floating_point U> Normal3(U v) : base_type(T(v)) {}

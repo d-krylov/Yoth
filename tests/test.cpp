@@ -1,4 +1,4 @@
-#include "yoth.h"
+#include "common/yoth.h"
 #include "gtest/gtest.h"
 #include <iostream>
 
@@ -72,6 +72,11 @@ TEST(Vector2f, Operators) {
 
   EXPECT_EQ(Min(v1, v2), v1);
   EXPECT_EQ(Max(v1, v2), v2);
+
+  Vector2f v3(-1.0f, -4.0f);
+
+  EXPECT_EQ(Abs(v3), Vector2f(1.0f, 4.0f));
+
   EXPECT_EQ(Floor(v1), Vector2f(13.0f, 12.0f));
   EXPECT_EQ(Ceil(v1), Vector2f(14.0f, 13.0f));
 }
@@ -121,12 +126,11 @@ TEST(Matrix4, Operators) {
   EXPECT_EQ(m1, m2);
   EXPECT_EQ(m3, m4);
 
-  EXPECT_EQ(m1.Determinant(), -188);
+  EXPECT_EQ(Determinant(m1), -188);
 
-  Matrix4f mm{1.5f, 2.7f, 4.3f, 6.9f, 5.1f, 3.3f, 2.9f, 5.7f,
-              1.1f, 2.7f, 9.9f, 9.3f, 2.3f, 5.5f, 6.7f, 1.9f};
+  Matrix4f mm{1.5f, 2.7f, 4.3f, 6.9f, 5.1f, 3.3f, 2.9f, 5.7f, 1.1f, 2.7f, 9.9f, 9.3f, 2.3f, 5.5f, 6.7f, 1.9f};
 
-  EXPECT_FLOAT_EQ(mm.Determinant(), 551.6448f);
+  EXPECT_FLOAT_EQ(Determinant(mm), 551.6448f);
 
   Matrix4f nn = mm * mm;
 
@@ -166,5 +170,29 @@ TEST(Matrix, Operators) {
   Matrix<int32_t, 2, 3> m{1, 2, 3, 4, 5, 6};
   Matrix<int32_t, 3, 2> t{1, 4, 2, 5, 3, 6};
 
-  EXPECT_EQ(m.Transpose(), t);
+  EXPECT_EQ(Transpose(m), t);
+
+  Matrix4f mm{1.5f, 2.7f, 4.3f, 6.9f, 5.1f, 3.3f, 2.9f, 5.7f, 1.1f, 2.7f, 9.9f, 9.3f, 2.3f, 5.5f, 6.7f, 1.9f};
+
+  auto inverse_mm = Inverse(mm).value();
+
+  EXPECT_FLOAT_EQ(inverse_mm.At(0, 0), -0.39399266f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(0, 1), 0.30898143f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(0, 2), 0.11259419f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(0, 3), -0.04724779f);
+
+  EXPECT_FLOAT_EQ(inverse_mm.At(1, 0), 0.45982487f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(1, 1), -0.16046557f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(1, 2), -0.28176827f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(1, 3), 0.19068792f);
+
+  EXPECT_FLOAT_EQ(inverse_mm.At(2, 0), -0.31165707f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(2, 1), 0.0326732f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(2, 2), 0.20445765f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(2, 3), 0.03302125f);
+
+  EXPECT_FLOAT_EQ(inverse_mm.At(3, 0), 0.24486771f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(3, 1), -0.02474056f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(3, 2), -0.04163549f);
+  EXPECT_FLOAT_EQ(inverse_mm.At(3, 3), -0.08492421f);
 }

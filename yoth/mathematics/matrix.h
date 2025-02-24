@@ -43,13 +43,9 @@ public:
 
   T &At(int32_t i, int32_t j) { return m[COLUMNS * i + j]; }
 
-  T Determinant() const
-    requires(ROWS == 4 && COLUMNS == 4);
+  T operator[](std::size_t i, std::size_t j) const { return At(i, j); }
 
-  T Determinant() const
-    requires(ROWS == 2 && COLUMNS == 2);
-
-  Matrix<T, COLUMNS, ROWS> Transpose() const;
+  T &operator[](std::size_t i, std::size_t j) { return At(i, j); }
 
 public:
   std::array<T, SIZE> m;

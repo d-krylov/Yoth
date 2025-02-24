@@ -10,6 +10,8 @@
 
 namespace Yoth {
 
+using FloatType = float;
+
 using Point2i = Point2<int32_t>;
 using Point3i = Point3<int32_t>;
 using Point2u = Point2<uint32_t>;
@@ -32,6 +34,14 @@ using Vector3d = Vector3<double>;
 using Vector4d = Vector4<double>;
 using Matrix4i = Matrix4<int32_t>;
 using Matrix4f = Matrix4<float>;
+
+using Point2F = Point2<FloatType>;
+using Point3F = Point3<FloatType>;
+using Vector2F = Vector2<FloatType>;
+using Vector3F = Vector3<FloatType>;
+using Vector4F = Vector4<FloatType>;
+using Matrix4F = Matrix4<FloatType>;
+using Normal3F = Normal3<FloatType>;
 
 } // namespace Yoth
 

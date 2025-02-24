@@ -5,15 +5,15 @@
 
 namespace Yoth {
 
-template <typename T = float> class Ray {
+class Ray {
 public:
-  Ray(const Point3<T> &origin, const Vector3<T> &direction) : origin_(origin), direction_(direction) {}
+  Ray(const Point3F &origin, const Vector3F &direction) : origin_(origin), direction_(direction) {}
 
-  Point3<T> operator()(T t) const { return origin_ + direction_ * t; }
+  auto operator()(FloatType t) const { return origin_ + direction_ * t; }
 
 public:
-  Point3<T> origin_;
-  Vector3<T> direction_;
+  Point3F origin_;
+  Vector3F direction_;
 };
 
 } // namespace Yoth
