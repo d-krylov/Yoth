@@ -25,23 +25,29 @@ template <typename T> inline T Dot(const Vector4<T> &v0, const Vector4<T> &v1) {
 }
 
 // clang-format off
-template <typename T> inline T Cross(const Vector3<T> &v0, const Vector3<T> &v1) {
+template <typename T> inline Vector3<T> Cross(const Vector3<T> &v0, const Vector3<T> &v1) {
   return {DifferenceOfProducts(v0.y, v1.z, v0.z, v1.y), 
           DifferenceOfProducts(v0.z, v1.x, v0.x, v1.z),
           DifferenceOfProducts(v0.x, v1.y, v0.y, v1.x)};
 }
 // clang-format on
 
-template <typename T> inline T LengthSquared(const Vector2<T> &v) { return v.x * v.x + v.y * v.y; }
+template <typename T> inline T LengthSquared(const Vector2<T> &v) {
+  return v.x * v.x + v.y * v.y;
+}
 
-template <typename T> inline T LengthSquared(const Vector3<T> &v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
+template <typename T> inline T LengthSquared(const Vector3<T> &v) {
+  return v.x * v.x + v.y * v.y + v.z * v.z;
+}
 
-template <IsVector T> inline auto Length(const T &v) -> typename VectorTypeLength<typename T::value_type>::type {
+template <IsVector T> inline auto Length(const T &v) -> VectorTypeLength<typename T::value_type> {
   using std::sqrt;
   return sqrt(LengthSquared(v));
 }
 
-template <IsVector T> inline auto Normalize(const T &v) { return v / Length(v); }
+template <IsVector T> inline auto Normalize(const T &v) {
+  return v / Length(v);
+}
 
 } // namespace Yoth
 

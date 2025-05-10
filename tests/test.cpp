@@ -1,8 +1,145 @@
-#include "common/yoth.h"
+#include "yoth/common/yoth.h"
 #include "gtest/gtest.h"
 #include <iostream>
 
 using namespace Yoth;
+
+// Vector3f
+
+TEST(Vector3f, Basic) {
+  Vector3f v1(1.234567f, 2.345678f, 3.456789f);
+  Vector3f v2(4.321098f, 5.432109f, 6.543210f);
+
+  Vector3f sum = v1 + v2;
+  EXPECT_FLOAT_EQ(sum.x, 1.234567f + 4.321098f);
+  EXPECT_FLOAT_EQ(sum.y, 2.345678f + 5.432109f);
+  EXPECT_FLOAT_EQ(sum.z, 3.456789f + 6.543210f);
+
+  Vector3f diff = v1 - v2;
+  EXPECT_FLOAT_EQ(diff.x, 1.234567f - 4.321098f);
+  EXPECT_FLOAT_EQ(diff.y, 2.345678f - 5.432109f);
+  EXPECT_FLOAT_EQ(diff.z, 3.456789f - 6.543210f);
+
+  Vector3f neg = -v1;
+  EXPECT_FLOAT_EQ(neg.x, -1.234567f);
+  EXPECT_FLOAT_EQ(neg.y, -2.345678f);
+  EXPECT_FLOAT_EQ(neg.z, -3.456789f);
+
+  Vector3f scaled = v1 * 2.0f;
+  EXPECT_FLOAT_EQ(scaled.x, 1.234567f * 2.0f);
+  EXPECT_FLOAT_EQ(scaled.y, 2.345678f * 2.0f);
+  EXPECT_FLOAT_EQ(scaled.z, 3.456789f * 2.0f);
+
+  Vector3f divided = v1 / 2.0f;
+  EXPECT_FLOAT_EQ(divided.x, 1.234567f / 2.0f);
+  EXPECT_FLOAT_EQ(divided.y, 2.345678f / 2.0f);
+  EXPECT_FLOAT_EQ(divided.z, 3.456789f / 2.0f);
+
+  Vector3f v3 = v1;
+
+  v3 += v2;
+  EXPECT_FLOAT_EQ(v3.x, 1.234567f + 4.321098f);
+  EXPECT_FLOAT_EQ(v3.y, 2.345678f + 5.432109f);
+  EXPECT_FLOAT_EQ(v3.z, 3.456789f + 6.543210f);
+
+  v3 = v1;
+  v3 -= v2;
+
+  EXPECT_FLOAT_EQ(v3.x, 1.234567f - 4.321098f);
+  EXPECT_FLOAT_EQ(v3.y, 2.345678f - 5.432109f);
+  EXPECT_FLOAT_EQ(v3.z, 3.456789f - 6.543210f);
+
+  v3 = v1;
+  v3 *= 2.0f;
+  EXPECT_FLOAT_EQ(v3.x, 1.234567f * 2.0f);
+  EXPECT_FLOAT_EQ(v3.y, 2.345678f * 2.0f);
+  EXPECT_FLOAT_EQ(v3.z, 3.456789f * 2.0f);
+
+  v3 = v1;
+  v3 /= 2.0f;
+  EXPECT_FLOAT_EQ(v3.x, 1.234567f / 2.0f);
+  EXPECT_FLOAT_EQ(v3.y, 2.345678f / 2.0f);
+  EXPECT_FLOAT_EQ(v3.z, 3.456789f / 2.0f);
+
+  Vector3f v4(1.234567f, 2.345678f, 3.456789f);
+  EXPECT_TRUE(v1 == v4);
+  EXPECT_TRUE(v1 != v2);
+  EXPECT_FALSE(v1 == v2);
+}
+
+TEST(Vector3f, ComponentAccess) {
+  Vector3f v(1.234567f, 2.345678f, 3.456789f);
+
+  Vector2f expected_xy(1.234567f, 2.345678f);
+  Vector2f expected_yz(2.345678f, 3.456789f);
+  Vector2f expected_xz(1.234567f, 3.456789f);
+
+  EXPECT_EQ(v.xy(), expected_xy);
+  EXPECT_EQ(v.yz(), expected_yz);
+  EXPECT_EQ(v.xz(), expected_xz);
+}
+
+TEST(Vector3, MathFunctions) {
+  Vector3f a(1.25f, -2.75f, 3.5f);
+  Vector3f b(-4.125f, 5.625f, -6.875f);
+
+  // Min
+  Vector3f min = Min(a, b);
+  EXPECT_FLOAT_EQ(min.x, std::fmin(a.x, b.x));
+  EXPECT_FLOAT_EQ(min.y, std::fmin(a.y, b.y));
+  EXPECT_FLOAT_EQ(min.z, std::fmin(a.z, b.z));
+
+  // Max
+  Vector3f max = Max(a, b);
+  EXPECT_FLOAT_EQ(max.x, std::fmax(a.x, b.x));
+  EXPECT_FLOAT_EQ(max.y, std::fmax(a.y, b.y));
+  EXPECT_FLOAT_EQ(max.z, std::fmax(a.z, b.z));
+
+  // Clamp
+  Vector3f low(-1.0f, -1.0f, -1.0f);
+  Vector3f high(2.0f, 2.0f, 2.0f);
+
+  Vector3f clamped = Clamp(a, low, high);
+
+  EXPECT_FLOAT_EQ(clamped.x, std::fmax(low.x, std::fmin(a.x, high.x)));
+  EXPECT_FLOAT_EQ(clamped.y, std::fmax(low.y, std::fmin(a.y, high.y)));
+  EXPECT_FLOAT_EQ(clamped.z, std::fmax(low.z, std::fmin(a.z, high.z)));
+
+  // Ceil
+  Vector3f ceil = Ceil(a);
+
+  EXPECT_FLOAT_EQ(ceil.x, std::ceil(a.x));
+  EXPECT_FLOAT_EQ(ceil.y, std::ceil(a.y));
+  EXPECT_FLOAT_EQ(ceil.z, std::ceil(a.z));
+
+  // Floor
+  Vector3f floor = Floor(a);
+  EXPECT_FLOAT_EQ(floor.x, std::floor(a.x));
+  EXPECT_FLOAT_EQ(floor.y, std::floor(a.y));
+  EXPECT_FLOAT_EQ(floor.z, std::floor(a.z));
+
+  // Abs
+  Vector3f abs = Abs(b);
+  EXPECT_FLOAT_EQ(abs.x, std::fabs(b.x));
+  EXPECT_FLOAT_EQ(abs.y, std::fabs(b.y));
+  EXPECT_FLOAT_EQ(abs.z, std::fabs(b.z));
+
+  // LengthSquared
+  float expected_length2 = a.x * a.x + a.y * a.y + a.z * a.z;
+
+  EXPECT_FLOAT_EQ(LengthSquared(a), expected_length2);
+
+  // Dot
+  float expected_dot = a.x * b.x + a.y * b.y + a.z * b.z;
+
+  EXPECT_FLOAT_EQ(Dot(a, b), expected_dot);
+
+  // Cross
+  Vector3f cross = Cross(a, b);
+  EXPECT_FLOAT_EQ(cross.x, a.y * b.z - a.z * b.y);
+  EXPECT_FLOAT_EQ(cross.y, a.z * b.x - a.x * b.z);
+  EXPECT_FLOAT_EQ(cross.z, a.x * b.y - a.y * b.x);
+}
 
 TEST(Vector2d, Constructors) {
   Vector2d v;
@@ -28,6 +165,11 @@ TEST(Vector2d, Constructors) {
 
   EXPECT_EQ(q, r);
   EXPECT_NE(q, w);
+
+  r += q;
+
+  EXPECT_EQ(r.x, 2.0);
+  EXPECT_EQ(r.y, 4.0);
 }
 
 TEST(Vector2f, Constructors) {
@@ -111,9 +253,90 @@ TEST(Vector3f, Operators) {
   EXPECT_EQ(reflected.z, -1.0f);
 }
 
-TEST(Vector4f, Operators) {}
+TEST(Vector4, BasicOperations) {
+  Vector4f v1(1.234567f, 2.345678f, 3.456789f, 4.567890f);
+  Vector4f v2(0.111111f, 0.222222f, 0.333333f, 0.444444f);
 
-TEST(Core, Operators) { EXPECT_FLOAT_EQ((float)InnerProduct(1.1f, 2.2f, 3.3f, 4.4f), 16.94f); }
+  Vector4f sum = v1 + v2;
+
+  EXPECT_FLOAT_EQ(sum.x, v1.x + v2.x);
+  EXPECT_FLOAT_EQ(sum.y, v1.y + v2.y);
+  EXPECT_FLOAT_EQ(sum.z, v1.z + v2.z);
+  EXPECT_FLOAT_EQ(sum.w, v1.w + v2.w);
+
+  Vector4f diff = v1 - v2;
+
+  EXPECT_FLOAT_EQ(diff.x, v1.x - v2.x);
+  EXPECT_FLOAT_EQ(diff.y, v1.y - v2.y);
+  EXPECT_FLOAT_EQ(diff.z, v1.z - v2.z);
+  EXPECT_FLOAT_EQ(diff.w, v1.w - v2.w);
+
+  Vector4f neg = -v1;
+
+  EXPECT_FLOAT_EQ(neg.x, -v1.x);
+  EXPECT_FLOAT_EQ(neg.y, -v1.y);
+  EXPECT_FLOAT_EQ(neg.z, -v1.z);
+  EXPECT_FLOAT_EQ(neg.w, -v1.w);
+
+  float scalar = 2.0f;
+
+  Vector4f mul = v1 * scalar;
+
+  EXPECT_FLOAT_EQ(mul.x, v1.x * scalar);
+  EXPECT_FLOAT_EQ(mul.y, v1.y * scalar);
+  EXPECT_FLOAT_EQ(mul.z, v1.z * scalar);
+  EXPECT_FLOAT_EQ(mul.w, v1.w * scalar);
+
+  Vector4f div = v1 / scalar;
+
+  EXPECT_FLOAT_EQ(div.x, v1.x / scalar);
+  EXPECT_FLOAT_EQ(div.y, v1.y / scalar);
+  EXPECT_FLOAT_EQ(div.z, v1.z / scalar);
+  EXPECT_FLOAT_EQ(div.w, v1.w / scalar);
+
+  Vector4f v3 = v1;
+
+  v3 += v2;
+
+  EXPECT_FLOAT_EQ(v3.x, v1.x + v2.x);
+  EXPECT_FLOAT_EQ(v3.y, v1.y + v2.y);
+  EXPECT_FLOAT_EQ(v3.z, v1.z + v2.z);
+  EXPECT_FLOAT_EQ(v3.w, v1.w + v2.w);
+
+  v3 = v1;
+  v3 -= v2;
+
+  EXPECT_FLOAT_EQ(v3.x, v1.x - v2.x);
+  EXPECT_FLOAT_EQ(v3.y, v1.y - v2.y);
+  EXPECT_FLOAT_EQ(v3.z, v1.z - v2.z);
+  EXPECT_FLOAT_EQ(v3.w, v1.w - v2.w);
+
+  v3 = v1;
+  v3 *= scalar;
+
+  EXPECT_FLOAT_EQ(v3.x, v1.x * scalar);
+  EXPECT_FLOAT_EQ(v3.y, v1.y * scalar);
+  EXPECT_FLOAT_EQ(v3.z, v1.z * scalar);
+  EXPECT_FLOAT_EQ(v3.w, v1.w * scalar);
+
+  v3 = v1;
+  v3 /= scalar;
+
+  EXPECT_FLOAT_EQ(v3.x, v1.x / scalar);
+  EXPECT_FLOAT_EQ(v3.y, v1.y / scalar);
+  EXPECT_FLOAT_EQ(v3.z, v1.z / scalar);
+  EXPECT_FLOAT_EQ(v3.w, v1.w / scalar);
+
+  Vector4f v4(1.234567f, 2.345678f, 3.456789f, 4.567890f);
+
+  EXPECT_TRUE(v1 == v4);
+  EXPECT_TRUE(v1 != v2);
+  EXPECT_FALSE(v1 == v2);
+}
+
+TEST(Core, Operators) {
+  EXPECT_FLOAT_EQ((float)InnerProduct(1.1f, 2.2f, 3.3f, 4.4f), 16.94f);
+}
 
 TEST(Matrix4, Operators) {
   Matrix4i m1{1, 2, 4, 3, 6, 8, 5, 4, 1, 7, 2, 5, 4, 9, 8, 6};
@@ -150,19 +373,6 @@ TEST(Matrix4, Operators) {
   EXPECT_FLOAT_EQ(nn.At(3, 1), 52.9f);
   EXPECT_FLOAT_EQ(nn.At(3, 2), 104.9f);
   EXPECT_FLOAT_EQ(nn.At(3, 3), 113.14f);
-}
-
-TEST(BoundingBox, Constructors) {
-
-  BoundingBox bb(Point3f(1.0f, 2.0f, 3.0f), Point3f(1.5f, 1.0f, 4.0f));
-
-  EXPECT_EQ(bb.GetMin(), Point3f(1.0f, 1.0f, 3.0f));
-  EXPECT_EQ(bb.GetMax(), Point3f(1.5f, 2.0f, 4.0f));
-
-  bb.Expand(Point3f(4.0f, 1.0f, 5.0f));
-
-  EXPECT_EQ(bb.GetMin(), Point3f(1.0f, 1.0f, 3.0f));
-  EXPECT_EQ(bb.GetMax(), Point3f(4.0f, 2.0f, 5.0f));
 }
 
 TEST(Matrix, Operators) {

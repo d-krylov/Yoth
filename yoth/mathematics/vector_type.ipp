@@ -1,6 +1,8 @@
 #ifndef YOTH_VECTOR_TYPE_IPP
 #define YOTH_VECTOR_TYPE_IPP
 
+#include <algorithm>
+
 namespace Yoth {
 
 template <typename T, template <typename> typename R>
@@ -106,6 +108,27 @@ template <typename T, template <typename> typename R>
 inline R<T> Floor(const R<T> &t) {
   using std::floor;
   return {floor(t.x), floor(t.y), floor(t.z), floor(t.w)};
+}
+
+template <typename T, template <typename> typename R>
+  requires std::derived_from<R<T>, VectorType2<T>>
+inline R<T> Clamp(const R<T> &t, const R<T> &low, const R<T> &high) {
+  using std::clamp;
+  return {clamp(t.x, low.x, high.x), clamp(t.y, low.y, high.y)};
+}
+
+template <typename T, template <typename> typename R>
+  requires std::derived_from<R<T>, VectorType3<T>>
+inline R<T> Clamp(const R<T> &t, const R<T> &low, const R<T> &high) {
+  using std::clamp;
+  return {clamp(t.x, low.x, high.x), clamp(t.y, low.y, high.y), clamp(t.z, low.z, high.z)};
+}
+
+template <typename T, template <typename> typename R>
+  requires std::derived_from<R<T>, VectorType4<T>>
+inline R<T> Clamp(const R<T> &t, const R<T> &low, const R<T> &high) {
+  using std::clamp;
+  return {clamp(t.x, low.x, high.x), clamp(t.y, low.y, high.y), clamp(t.z, low.z, high.z), clamp(t.w, low.w, high.w)};
 }
 
 template <Arithmetic T, Arithmetic U, template <typename> typename R>

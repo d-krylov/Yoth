@@ -5,12 +5,9 @@
 #include "matrix.h"
 #include "normal.h"
 #include "point.h"
-#include "quaternion.h"
 #include <cstdint>
 
 namespace Yoth {
-
-using FloatType = float;
 
 using Point2i = Point2<int32_t>;
 using Point3i = Point3<int32_t>;

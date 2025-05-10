@@ -2,6 +2,8 @@
 #define YOTH_MATRIX_H
 
 #include "vector.h"
+#include <algorithm>
+#include <functional>
 
 namespace Yoth {
 
@@ -37,15 +39,25 @@ public:
     return r -= other;
   }
 
-  bool operator==(const type &other) const { return std::ranges::equal(m, other.m); }
+  bool operator==(const type &other) const {
+    return std::ranges::equal(m, other.m);
+  }
 
-  T At(int32_t i, int32_t j) const { return m[COLUMNS * i + j]; }
+  T At(int32_t i, int32_t j) const {
+    return m[COLUMNS * i + j];
+  }
 
-  T &At(int32_t i, int32_t j) { return m[COLUMNS * i + j]; }
+  T &At(int32_t i, int32_t j) {
+    return m[COLUMNS * i + j];
+  }
 
-  T operator[](std::size_t i, std::size_t j) const { return At(i, j); }
+  T operator[](std::size_t i, std::size_t j) const {
+    return At(i, j);
+  }
 
-  T &operator[](std::size_t i, std::size_t j) { return At(i, j); }
+  T &operator[](std::size_t i, std::size_t j) {
+    return At(i, j);
+  }
 
 public:
   std::array<T, SIZE> m;

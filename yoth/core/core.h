@@ -6,11 +6,21 @@
 
 namespace Yoth {
 
-template <std::floating_point T> inline bool IsNaN(T v) { return std::isnan(v); }
-template <std::integral T> inline bool IsNaN(T v) { return false; }
+template <std::floating_point T> inline bool IsNaN(T v) {
+  return std::isnan(v);
+}
 
-template <std::integral T> inline T FMA(T a, T b, T c) { return a * b + c; }
-template <std::floating_point T> inline T FMA(T a, T b, T c) { return std::fma(a, b, c); }
+template <std::integral T> inline bool IsNaN(T v) {
+  return false;
+}
+
+template <std::integral T> inline T FMA(T a, T b, T c) {
+  return a * b + c;
+}
+
+template <std::floating_point T> inline T FMA(T a, T b, T c) {
+  return std::fma(a, b, c);
+}
 
 template <typename TA, typename TB, typename TC, typename TD> inline auto SumOfProducts(TA a, TB b, TC c, TD d) {
   auto cd = c * d;
@@ -27,8 +37,13 @@ template <typename TA, typename TB, typename TC, typename TD> inline auto Differ
 }
 
 template <std::floating_point T> struct CompensatedFloat {
-  explicit operator float() const { return value + error; }
-  explicit operator double() const { return double(value) + double(error); }
+  explicit operator float() const {
+    return value + error;
+  }
+
+  explicit operator double() const {
+    return double(value) + double(error);
+  }
 
   T value;
   T error;
@@ -67,7 +82,9 @@ template <std::floating_point... T> inline auto InnerProduct(T... values) {
   return Head(ip);
 }
 
-template <std::integral T> inline T InnerProduct(T a, T b) { return a * b; }
+template <std::integral T> inline T InnerProduct(T a, T b) {
+  return a * b;
+}
 
 template <std::integral F, std::integral... T> inline F InnerProduct(F a, F b, T... tail) {
   return a * b + InnerProduct(tail...);
