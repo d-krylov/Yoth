@@ -49,6 +49,8 @@ public:
   using VectorType3<T>::y;
   using VectorType3<T>::z;
 
+  using VectorType3<T>::operator+;
+
   using base_type = VectorType3<T>;
   using minus_dimension_type = Point2<T>;
 
@@ -66,12 +68,12 @@ public:
   template <typename U> Point3(U t, const Point2<U> &v) : base_type(T(t), T(v.x), T(v.y)) {
   }
 
-  template <typename U> auto &operator+=(const Vector3<U> &v) const {
+  template <typename U> auto &operator+=(const Vector3<U> &v) {
     x += v.x, y += v.y, z += v.z;
     return *this;
   }
 
-  template <typename U> auto &operator-=(const Vector3<U> &v) const {
+  template <typename U> auto &operator-=(const Vector3<U> &v) {
     x -= v.x, y -= v.y, z -= v.z;
     return *this;
   }

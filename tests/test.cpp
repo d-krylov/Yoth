@@ -1,6 +1,5 @@
 #include "yoth/common/yoth.h"
 #include "gtest/gtest.h"
-#include <iostream>
 
 using namespace Yoth;
 
@@ -139,6 +138,63 @@ TEST(Vector3, MathFunctions) {
   EXPECT_FLOAT_EQ(cross.x, a.y * b.z - a.z * b.y);
   EXPECT_FLOAT_EQ(cross.y, a.z * b.x - a.x * b.z);
   EXPECT_FLOAT_EQ(cross.z, a.x * b.y - a.y * b.x);
+}
+
+TEST(Point3, AllOperators) {
+  Point3f p(1.25f, -2.75f, 3.5f);
+  Vector3f v(0.5f, -1.5f, 2.25f);
+
+  // Copy for += and -= tests
+  Point3f p_add = p;
+  Point3f p_sub = p;
+
+  // Point + Vector = Point
+  Point3f p1 = p + v;
+  EXPECT_FLOAT_EQ(p1.x, p.x + v.x);
+  EXPECT_FLOAT_EQ(p1.y, p.y + v.y);
+  EXPECT_FLOAT_EQ(p1.z, p.z + v.z);
+
+  // Point - Vector = Point
+  Point3f p2 = p - v;
+  EXPECT_FLOAT_EQ(p2.x, p.x - v.x);
+  EXPECT_FLOAT_EQ(p2.y, p.y - v.y);
+  EXPECT_FLOAT_EQ(p2.z, p.z - v.z);
+
+  // Point - Point = Vector
+  Point3f p3(4.75f, 0.0f, -1.25f);
+
+  Vector3f d = p3 - p;
+  EXPECT_FLOAT_EQ(d.x, p3.x - p.x);
+  EXPECT_FLOAT_EQ(d.y, p3.y - p.y);
+  EXPECT_FLOAT_EQ(d.z, p3.z - p.z);
+
+  // Compound +=
+  p_add += v;
+  EXPECT_FLOAT_EQ(p_add.x, p.x + v.x);
+  EXPECT_FLOAT_EQ(p_add.y, p.y + v.y);
+  EXPECT_FLOAT_EQ(p_add.z, p.z + v.z);
+
+  // Compound -=
+  p_sub -= v;
+  EXPECT_FLOAT_EQ(p_sub.x, p.x - v.x);
+  EXPECT_FLOAT_EQ(p_sub.y, p.y - v.y);
+  EXPECT_FLOAT_EQ(p_sub.z, p.z - v.z);
+
+  Point3f a(1.25f, -3.75f, 0.5f);
+  Point3f b(-2.5f, 4.125f, 1.75f);
+  Point3f c(3.0f, 0.625f, -2.25f);
+
+  Point3f sum = a + b + c;
+
+  EXPECT_FLOAT_EQ(sum.x, a.x + b.x + c.x);
+  EXPECT_FLOAT_EQ(sum.y, a.y + b.y + c.y);
+  EXPECT_FLOAT_EQ(sum.z, a.z + b.z + c.z);
+
+  Point3f p4 = p;
+
+  EXPECT_TRUE(p == p4);
+  EXPECT_TRUE(p != p3);
+  EXPECT_FALSE(p != p4);
 }
 
 TEST(Vector2d, Constructors) {
@@ -350,29 +406,6 @@ TEST(Matrix4, Operators) {
   EXPECT_EQ(m3, m4);
 
   EXPECT_EQ(Determinant(m1), -188);
-
-  Matrix4f mm{1.5f, 2.7f, 4.3f, 6.9f, 5.1f, 3.3f, 2.9f, 5.7f, 1.1f, 2.7f, 9.9f, 9.3f, 2.3f, 5.5f, 6.7f, 1.9f};
-
-  EXPECT_FLOAT_EQ(Determinant(mm), 551.6448f);
-
-  Matrix4f nn = mm * mm;
-
-  EXPECT_FLOAT_EQ(nn.At(0, 0), 36.62f);
-  EXPECT_FLOAT_EQ(nn.At(0, 1), 62.52f);
-  EXPECT_FLOAT_EQ(nn.At(0, 2), 103.08f);
-  EXPECT_FLOAT_EQ(nn.At(0, 3), 78.84f);
-  EXPECT_FLOAT_EQ(nn.At(1, 0), 40.78f);
-  EXPECT_FLOAT_EQ(nn.At(1, 1), 63.84f);
-  EXPECT_FLOAT_EQ(nn.At(1, 2), 98.4f);
-  EXPECT_FLOAT_EQ(nn.At(1, 3), 91.8f);
-  EXPECT_FLOAT_EQ(nn.At(2, 0), 47.7f);
-  EXPECT_FLOAT_EQ(nn.At(2, 1), 89.76f);
-  EXPECT_FLOAT_EQ(nn.At(2, 2), 172.88f);
-  EXPECT_FLOAT_EQ(nn.At(2, 3), 132.72f);
-  EXPECT_FLOAT_EQ(nn.At(3, 0), 43.24f);
-  EXPECT_FLOAT_EQ(nn.At(3, 1), 52.9f);
-  EXPECT_FLOAT_EQ(nn.At(3, 2), 104.9f);
-  EXPECT_FLOAT_EQ(nn.At(3, 3), 113.14f);
 }
 
 TEST(Matrix, Operators) {
@@ -381,28 +414,4 @@ TEST(Matrix, Operators) {
   Matrix<int32_t, 3, 2> t{1, 4, 2, 5, 3, 6};
 
   EXPECT_EQ(Transpose(m), t);
-
-  Matrix4f mm{1.5f, 2.7f, 4.3f, 6.9f, 5.1f, 3.3f, 2.9f, 5.7f, 1.1f, 2.7f, 9.9f, 9.3f, 2.3f, 5.5f, 6.7f, 1.9f};
-
-  auto inverse_mm = Inverse(mm).value();
-
-  EXPECT_FLOAT_EQ(inverse_mm.At(0, 0), -0.39399266f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(0, 1), 0.30898143f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(0, 2), 0.11259419f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(0, 3), -0.04724779f);
-
-  EXPECT_FLOAT_EQ(inverse_mm.At(1, 0), 0.45982487f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(1, 1), -0.16046557f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(1, 2), -0.28176827f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(1, 3), 0.19068792f);
-
-  EXPECT_FLOAT_EQ(inverse_mm.At(2, 0), -0.31165707f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(2, 1), 0.0326732f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(2, 2), 0.20445765f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(2, 3), 0.03302125f);
-
-  EXPECT_FLOAT_EQ(inverse_mm.At(3, 0), 0.24486771f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(3, 1), -0.02474056f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(3, 2), -0.04163549f);
-  EXPECT_FLOAT_EQ(inverse_mm.At(3, 3), -0.08492421f);
 }

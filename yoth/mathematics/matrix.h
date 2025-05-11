@@ -60,7 +60,7 @@ public:
   }
 
 public:
-  std::array<T, SIZE> m;
+  std::array<T, SIZE> m{};
 };
 
 } // namespace Yoth

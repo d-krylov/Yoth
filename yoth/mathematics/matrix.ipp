@@ -35,6 +35,14 @@ template <typename T, int ROWS, int COLUMNS> auto Transpose(const Matrix<T, ROWS
   return result;
 }
 
+template <typename T, int N> auto Identity() {
+  Matrix<T, N, N> matrix;
+  for (auto i = 0; i < N; ++i) {
+    matrix.At(i, i) = T{1};
+  }
+  return matrix;
+}
+
 template <typename T> inline T Determinant(const Matrix2<T> &m) {
   return DifferenceOfProducts(m[0, 0], m[1, 1], m[1, 0], m[0, 1]);
 }

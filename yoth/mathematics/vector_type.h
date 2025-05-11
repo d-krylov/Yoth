@@ -25,6 +25,10 @@ public:
   YOTH_HOST_DEVICE explicit VectorType2(T v) : x(v), y(v) {
   }
 
+  bool HasNaN() const {
+    return IsNaN(x) || IsNaN(y);
+  }
+
   template <Arithmetic U, template <typename> typename Self>
   YOTH_HOST_DEVICE auto &operator+=(this Self<T> &self, const Self<U> &other) {
     self.x += other.x, self.y += other.y;
@@ -81,6 +85,11 @@ public:
   }
 
   template <Arithmetic U, template <typename> typename Self>
+  YOTH_HOST_DEVICE auto operator*(this const Self<T> &self, U d) -> Self<std::common_type_t<T, U>> {
+    return {self.x * d, self.y * d};
+  }
+
+  template <Arithmetic U, template <typename> typename Self>
   YOTH_HOST_DEVICE auto operator/(this const Self<T> &self, const Self<U> &other) -> Self<std::common_type_t<T, U>> {
     return {self.x / other.x, self.y / other.y};
   }
@@ -129,6 +138,10 @@ public:
   }
 
   YOTH_HOST_DEVICE explicit VectorType3(T v) : x(v), y(v), z(v) {
+  }
+
+  bool HasNaN() const {
+    return IsNaN(x) || IsNaN(y) || HasNaN(z);
   }
 
   template <Arithmetic U, template <typename> typename Self>
@@ -254,6 +267,10 @@ public:
   YOTH_HOST_DEVICE explicit VectorType4(T v) : x(v), y(v), z(v), w(v) {
   }
 
+  bool HasNaN() const {
+    return IsNaN(x) || IsNaN(y) || HasNaN(z) || HasNaN(w);
+  }
+
   template <Arithmetic U, template <typename> typename Self>
   YOTH_HOST_DEVICE auto &operator+=(this Self<T> &self, const Self<U> &other) {
     self.x += other.x, self.y += other.y, self.z += other.z, self.w += other.w;
@@ -338,6 +355,22 @@ public:
 
   YOTH_HOST_DEVICE T &operator[](int i) {
     return data[i];
+  }
+
+  template <typename Self> YOTH_HOST_DEVICE auto xyz(this const Self &self) -> typename Self::minus_dimension_type {
+    return typename Self::minus_dimension_type{self.x, self.y, self.z};
+  }
+
+  template <typename Self> YOTH_HOST_DEVICE auto yzw(this const Self &self) -> typename Self::minus_dimension_type {
+    return typename Self::minus_dimension_type{self.y, self.z, self.w};
+  }
+
+  template <typename Self> YOTH_HOST_DEVICE auto xyw(this const Self &self) -> typename Self::minus_dimension_type {
+    return typename Self::minus_dimension_type{self.x, self.y, self.w};
+  }
+
+  template <typename Self> YOTH_HOST_DEVICE auto xzw(this const Self &self) -> typename Self::minus_dimension_type {
+    return typename Self::minus_dimension_type{self.x, self.z, self.w};
   }
 
 public:
