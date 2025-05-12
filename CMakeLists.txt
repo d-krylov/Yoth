@@ -25,16 +25,14 @@ add_library(${PROJECT_NAME} STATIC ${YOTH_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   ${PROJECT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 if(NOT DEFINED YOTH_FLOAT_TYPE)
   set(YOTH_FLOAT_TYPE float)
 endif()
 
-if(YOTH_FLOAT_TYPE STREQUAL "float")
-  target_compile_definitions(${PROJECT_NAME} PUBLIC YOTH_FLOAT_TYPE_FLOAT)
-elseif(LINALG_FLOAT_TYPE STREQUAL "double")
-  target_compile_definitions(${PROJECT_NAME} PUBLIC YOTH_FLOAT_TYPE_DOUBLE)
-else()
-  message(FATAL_ERROR "Unsupported YOTH_FLOAT_TYPE")
-endif()
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/yoth/core/config.hpp.in
+  ${CMAKE_CURRENT_BINARY_DIR}/config.hpp
+)

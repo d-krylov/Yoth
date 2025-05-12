@@ -14,6 +14,9 @@ public:
   template <typename U> Vector2(U v0, U v1) : base_type(T(v0), T(v1)) {
   }
 
+  template <typename U> Vector2(const Vector2<U> &v) : base_type(T(v.x), T(v.y)) {
+  }
+
   template <typename U> explicit Vector2(U v) : base_type(T(v)) {
   }
 };
@@ -38,6 +41,9 @@ public:
   template <typename U> Vector3(U t, const Vector2<U> &v) : base_type(T(t), T(v.x), T(v.y)) {
   }
 
+  template <typename U> Vector3(const Vector3<U> &v) : base_type(T(v.x), T(v.y), T(v.z)) {
+  }
+
   template <typename U> explicit Vector3(U v) : base_type(T(v)) {
   }
 };
@@ -60,6 +66,9 @@ public:
 
   template <typename U>
   Vector4(const Vector2<U> &v0, const Vector2<U> &v1) : base_type(T(v0.x), T(v0.y), T(v1.x), T(v1.y)) {
+  }
+
+  template <typename U> Vector4(const Vector4<U> &v) : base_type(T(v.x), T(v.y), T(v.z), T(v.w)) {
   }
 
   template <typename U> explicit Vector4(U v) : base_type(T(v)) {

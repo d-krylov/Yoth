@@ -1,0 +1,10 @@
+#ifndef YOTH_CONFIG_HPP
+#define YOTH_CONFIG_HPP
+
+namespace Yoth {
+
+using FloatType = @YOTH_FLOAT_TYPE@;
+
+} // namespace Yoth
+
+#endif // YOTH_CONFIG_HPP
