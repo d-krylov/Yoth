@@ -5,6 +5,8 @@ namespace Yoth {
 
 using FloatType = @YOTH_FLOAT_TYPE@;
 
+inline constexpr bool yoth_enable_debug = @YOTH_ENABLE_DEBUG@;
+
 } // namespace Yoth
 
 #endif // YOTH_CONFIG_HPP

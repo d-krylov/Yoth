@@ -2,17 +2,17 @@
 #define YOTH_MATRIX_H
 
 #include "vector.h"
-#include <algorithm>
 #include <functional>
 
 namespace Yoth {
 
-template <typename T, int ROWS, int COLUMNS> class Matrix {
+template <typename T, int ROWS, int COLUMNS>
+class Matrix {
 public:
   using value_type = T;
   using type = Matrix<T, ROWS, COLUMNS>;
 
-  static constexpr const int SIZE = ROWS * COLUMNS;
+  static constexpr auto SIZE = ROWS * COLUMNS;
 
   type &operator+=(const type &other) {
     std::ranges::transform(m, other.m, m.begin(), std::plus<>{});
@@ -47,16 +47,12 @@ public:
     return m[COLUMNS * i + j];
   }
 
-  T &At(int32_t i, int32_t j) {
-    return m[COLUMNS * i + j];
-  }
-
   T operator[](std::size_t i, std::size_t j) const {
     return At(i, j);
   }
 
   T &operator[](std::size_t i, std::size_t j) {
-    return At(i, j);
+    return m[COLUMNS * i + j];
   }
 
 public:

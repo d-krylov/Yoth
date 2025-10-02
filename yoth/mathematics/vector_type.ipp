@@ -131,15 +131,18 @@ inline R<T> Clamp(const R<T> &t, const R<T> &low, const R<T> &high) {
   return {clamp(t.x, low.x, high.x), clamp(t.y, low.y, high.y), clamp(t.z, low.z, high.z), clamp(t.w, low.w, high.w)};
 }
 
-template <typename T> inline auto Lerp(T t, const VectorType2<T> &t0, const VectorType2<T> &t1) {
+template <typename T>
+inline auto Lerp(T t, const VectorType2<T> &t0, const VectorType2<T> &t1) {
   return (1 - t) * t0 + t * t1;
 }
 
-template <typename T> inline auto Lerp(T t, const VectorType3<T> &t0, const VectorType3<T> &t1) {
+template <typename T>
+inline auto Lerp(T t, const VectorType3<T> &t0, const VectorType3<T> &t1) {
   return (1 - t) * t0 + t * t1;
 }
 
-template <typename T> inline auto Lerp(T t, const VectorType4<T> &t0, const VectorType4<T> &t1) {
+template <typename T>
+inline auto Lerp(T t, const VectorType4<T> &t0, const VectorType4<T> &t1) {
   return (1 - t) * t0 + t * t1;
 }
 
@@ -154,6 +157,11 @@ template <Arithmetic T, Arithmetic U, template <typename> typename R>
 inline auto operator*(U s, const R<T> &t) {
   return t * s;
 }
+
+template <typename T>
+concept IsVectorType =
+  std::derived_from<T, VectorType2<typename T::value_type>> || std::derived_from<T, VectorType3<typename T::value_type>> ||
+  std::derived_from<T, VectorType4<typename T::value_type>>;
 
 } // namespace Yoth
 

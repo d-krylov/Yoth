@@ -11,9 +11,11 @@ concept SameTypes = (std::same_as<U, T> && ...);
 template <typename T>
 concept Arithmetic = std::is_arithmetic_v<T>;
 
-template <typename... T> struct HeadType;
+template <typename... T>
+struct HeadType;
 
-template <typename U, typename... T> struct HeadType<U, T...> {
+template <typename U, typename... T>
+struct HeadType<U, T...> {
   using type = U;
 };
 

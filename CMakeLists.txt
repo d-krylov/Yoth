@@ -17,8 +17,11 @@ if (${PROJECT_IS_TOP_LEVEL})
   add_clang_format_target(format "build")
 endif()
 
+set(CMAKE_BUILD_TYPE Release)
+
 set(YOTH_SOURCES
   ${PROJECT_SOURCE_DIR}/yoth/common/yoth.cpp
+  ${PROJECT_SOURCE_DIR}/yoth/core/core.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${YOTH_SOURCES})
@@ -30,6 +33,14 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 if(NOT DEFINED YOTH_FLOAT_TYPE)
   set(YOTH_FLOAT_TYPE float)
+endif()
+
+if (NOT DEFINED YOTH_ENABLE_DEBUG)
+  if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(YOTH_ENABLE_DEBUG 0)
+  else()
+    set(YOTH_ENABLE_DEBUG 1)
+  endif()
 endif()
 
 configure_file(

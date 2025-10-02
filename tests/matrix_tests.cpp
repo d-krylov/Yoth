@@ -44,9 +44,8 @@ TEST(Matrix4f, Inverse) {
   ExpectMatrixNear(m2 * i2.value(), Identity<float, 4>(), 1e-2f);
 
   Matrix4f m3{1.5f, 2.7f, 4.3f, 6.9f, 5.1f, 3.3f, 2.9f, 5.7f, 1.1f, 2.7f, 9.9f, 9.3f, 2.3f, 5.5f, 6.7f, 1.9f};
-  Matrix4f e3{-0.39399266f, +0.30898143f, +0.11259419f, -0.04724779f, +0.45982487f, -0.16046557f,
-              -0.28176827f, +0.19068792f, -0.31165707f, +0.0326732f,  +0.20445765f, +0.03302125f,
-              +0.24486771f, -0.02474056f, -0.04163549f, -0.08492421f};
+  Matrix4f e3{-0.39399266f, +0.30898143f, +0.11259419f, -0.04724779f, +0.45982487f, -0.16046557f, -0.28176827f, +0.19068792f,
+              -0.31165707f, +0.0326732f,  +0.20445765f, +0.03302125f, +0.24486771f, -0.02474056f, -0.04163549f, -0.08492421f};
 
   auto i3 = Inverse(m3);
 
@@ -62,9 +61,47 @@ TEST(Matrix4f, Multiplication) {
 
   Matrix4f a{1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.6f, 7.7f, 8.8f, 9.9f, 0.1f, 1.2f, 2.3f, 3.4f, 4.5f, 5.6f, 6.7f};
   Matrix4f b{7.1f, 6.2f, 5.3f, 4.4f, 3.5f, 2.6f, 1.7f, 0.8f, 9.9f, 8.0f, 7.1f, 6.2f, 5.3f, 4.4f, 3.5f, 2.6f};
-  Matrix4f e2{71.5,  58.3,  48.4,  38.5,  185.02, 151.58, 125.84, 100.1,
-              94.71, 81.36, 69.21, 57.06, 130.84, 107.06, 88.88,  70.7};
+  Matrix4f e2{71.5, 58.3, 48.4, 38.5, 185.02, 151.58, 125.84, 100.1, 94.71, 81.36, 69.21, 57.06, 130.84, 107.06, 88.88, 70.7};
 
   ExpectMatrixNear(m1 * m1, e1, 1e-3f);
   ExpectMatrixNear(a * b, e2, 1e-4f);
+}
+
+TEST(MatrixTransformTests, CompositeTransformOrderMatters) {
+
+  Vector4f point(1.0f, 0.0f, 0.0f, 1.0f);
+
+  Matrix4f scale = Scale(2.0f, 2.0f, 2.0f);
+  Matrix4f rotate = RotateX(90.0f);
+  Matrix4f translate = Translate(Vector3f(0.0f, 1.0f, 0.0f));
+
+  Matrix4f transform = translate * rotate * scale;
+  Vector4f result = Multiply(transform, point);
+
+  EXPECT_NEAR(result.x, 2.0f, 1e-5f);
+  EXPECT_NEAR(result.y, 1.0f, 1e-5f);
+  EXPECT_NEAR(result.z, 0.0f, 1e-5f);
+  EXPECT_NEAR(result.w, 1.0f, 1e-5f);
+}
+
+TEST(Matrix, Operators) {
+
+  Matrix<int32_t, 2, 3> m{1, 2, 3, 4, 5, 6};
+  Matrix<int32_t, 3, 2> t{1, 4, 2, 5, 3, 6};
+
+  EXPECT_EQ(Transpose(m), t);
+}
+
+TEST(Matrix4, Operators) {
+  Matrix4i m1{1, 2, 4, 3, 6, 8, 5, 4, 1, 7, 2, 5, 4, 9, 8, 6};
+  Matrix4i m2{1, 2, 4, 3, 6, 8, 5, 4, 1, 7, 2, 5, 4, 9, 8, 6};
+
+  Matrix4i m3 = m1 * m2;
+
+  Matrix4i m4{29, 73, 46, 49, 75, 147, 106, 99, 65, 117, 83, 71, 90, 190, 125, 124};
+
+  EXPECT_EQ(m1, m2);
+  EXPECT_EQ(m3, m4);
+
+  EXPECT_EQ(Determinant(m1), -188);
 }
